@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 
 namespace Marsa
 {
@@ -44,6 +45,9 @@ namespace Marsa
         private int     maximumDelta;
         private int     averageDelta;
         private int     sampleCount;
+        private int     []valueList;
+        private int     valueListIndex;
+        private const int valueListSize = 16;
         #endregion /*Private Members Variables*/
 
         #region Properties
@@ -60,6 +64,8 @@ namespace Marsa
                 this.minimumDelta   = (delta < minimumDelta) ? (delta) : (minimumDelta);
                 this.maximumDelta   = (delta > maximumDelta) ? (delta) : (maximumDelta);
                 this.averageDelta   = ((delta / sampleCount)) + (((sampleCount - 1)* averageDelta / sampleCount) );
+                this.valueList[valueListIndex++] = value;
+                valueListIndex      &= (valueListSize - 1);
 
             }
         }
@@ -93,19 +99,26 @@ namespace Marsa
         {
             get { return this.sampleCount; }
         }
+        public int[] Values
+        {
+            get { return this.valueList; }
+        }
+        public int ValuesIndex
+        {
+            get { return this.valueListIndex; }
+        }
         #endregion /*Properties*/
 
         #region Member Functions
-        public StatisticsCounter( int     id,
-                        int     subGroupID,
-                        string  unit,
-                        string  name,
-                        string  description)
+        public StatisticsCounter(int     id,
+                                 int     subGroupID,
+                                 string  unit,
+                                 string  name,
+                                 string  description)
         {
             this.ID             = id;
             this.Name           = name;
             this.Description    = description;
-
             this.subGroupID     = subGroupID;
             this.unit           = unit;
             this.value          = 0;
@@ -113,6 +126,10 @@ namespace Marsa
             this.minimumDelta   = 0;
             this.maximumDelta   = 0;
             this.sampleCount    = 0;
+            this.valueList      = new int[valueListSize];
+            this.valueListIndex = 0;
+            Debug.Assert(0 == (valueListSize & (valueListSize - 1)),
+                         "The valueListSize constant shall be a power of two");
         }
         #endregion /*Member Functions*/
     }
