@@ -35,13 +35,13 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Marsa.Properties;
+using ZedGraph;
 
 namespace Marsa
 {
     public partial class frmViewer : Form
     {
         private frmConnectionSettings   connectionSettingsForm;
-        private frmAbout                aboutBox;
         private StatisticsManager       statisticsManager;
 
         public frmViewer()
@@ -265,6 +265,61 @@ namespace Marsa
             UpdateStatisticsGrid(dgvStatistics, 
                                  statisticsManager.countersList);
 
+            CreateGraph(zedGraphControl);
+
+        }
+
+        private void CreateGraph(ZedGraphControl zgc)
+        {
+            // get a reference to the GraphPane
+
+            zgc.MasterPane = new MasterPane();
+            zgc.GraphPane = new GraphPane();
+            GraphPane myPane = zgc.GraphPane;
+
+            // Set the Titles
+
+            //myPane.Title.Text = "My Test Graph\n(For CodeProject Sample)";
+            //myPane.XAxis.Title.Text = "My X Axis";
+            //myPane.YAxis.Title.Text = "My Y Axis";
+
+            // Make up some data arrays based on the Sine function
+
+            double x, y;
+            PointPairList list1 = new PointPairList();
+            StatisticsCounter counter = statisticsManager.countersList[0];
+
+
+            for (int i = 0, j = counter.ValuesIndex; i < 16; i++, j = (++j) & 0xF)
+            {
+
+                x = (double)i + counter.SampleCount;
+                y = counter.Values[j];
+                
+                list1.Add(x, y);
+                
+            }
+
+            LineItem myCurve = myPane.AddCurve("Porsche",
+                  list1, Color.Red, SymbolType.Diamond);
+
+
+            // Tell ZedGraph to refigure the
+
+            // axes since the data have changed
+            myPane.XAxis.MajorGrid.IsVisible = true;
+            myPane.YAxis.MajorGrid.IsVisible = true;
+            myPane.XAxis.MajorGrid.Color = Color.White;
+            myPane.YAxis.MajorGrid.Color = Color.White;
+
+            myPane.XAxis.IsVisible = false;
+            myPane.YAxis.IsVisible = false;
+            myPane.Chart.Fill = new Fill(Color.Black);
+
+            zgc.AxisChange();
+            zgc.Refresh();
+            zgc.MasterPane.ReSize(zgc.CreateGraphics());
+            
         }
 
         private void UpdateStatisticsGrid(DataGridView dgvStatistics, List<StatisticsCounter> countersList)
@@ -318,8 +373,16 @@ namespace Marsa
 
         private void mnuAbout_Click(object sender, EventArgs e)
         {
-            aboutBox = new frmAbout();
-            aboutBox.ShowDialog();
+            frmAbout aboutForm;
+            aboutForm = new frmAbout();
+            aboutForm.ShowDialog();
+        }
+
+        private void mnuGraphSettings_Click(object sender, EventArgs e)
+        {
+            frmGraphSettings graphSettingsForm;
+            graphSettingsForm = new frmGraphSettings();
+            graphSettingsForm.ShowDialog();
         }
     }
 }

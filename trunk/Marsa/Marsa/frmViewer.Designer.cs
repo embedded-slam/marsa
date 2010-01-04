@@ -61,11 +61,11 @@ namespace Marsa
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuIP_Settings = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuPeriodSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuPeriod = new System.Windows.Forms.ToolStripTextBox();
-            this.actionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuActions = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuConnectDisconnect = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuStartStop = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFilter = new System.Windows.Forms.ToolStripMenuItem();
@@ -95,17 +95,20 @@ namespace Marsa
             this.Delta = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabAddNewTab = new System.Windows.Forms.TabPage();
+            this.zedGraphControl = new ZedGraph.ZedGraphControl();
+            this.mnuGraphSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPageStatisticsCountersGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStatistics)).BeginInit();
+            this.tabAddNewTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.settingsToolStripMenuItem,
-            this.actionToolStripMenuItem,
+            this.mnuSettings,
+            this.mnuActions,
             this.mnuFilter,
             this.mnuHelp});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
@@ -114,14 +117,15 @@ namespace Marsa
             this.menuStrip.TabIndex = 2;
             this.menuStrip.Text = "menuStrip1";
             // 
-            // settingsToolStripMenuItem
+            // mnuSettings
             // 
-            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuGraphSettings,
             this.mnuIP_Settings,
-            this.toolStripTextBox1});
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
-            this.settingsToolStripMenuItem.Text = "Settings";
+            this.mnuPeriodSettings});
+            this.mnuSettings.Name = "mnuSettings";
+            this.mnuSettings.Size = new System.Drawing.Size(58, 20);
+            this.mnuSettings.Text = "Settings";
             // 
             // mnuIP_Settings
             // 
@@ -130,13 +134,13 @@ namespace Marsa
             this.mnuIP_Settings.Text = "IP Settings...";
             this.mnuIP_Settings.Click += new System.EventHandler(this.iPSettingsToolStripMenuItem_Click);
             // 
-            // toolStripTextBox1
+            // mnuPeriodSettings
             // 
-            this.toolStripTextBox1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuPeriodSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuPeriod});
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(171, 22);
-            this.toolStripTextBox1.Text = "Period (milliSeconds)";
+            this.mnuPeriodSettings.Name = "mnuPeriodSettings";
+            this.mnuPeriodSettings.Size = new System.Drawing.Size(171, 22);
+            this.mnuPeriodSettings.Text = "Period (milliSeconds)";
             // 
             // mnuPeriod
             // 
@@ -145,14 +149,14 @@ namespace Marsa
             this.mnuPeriod.Text = "1";
             this.mnuPeriod.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mnuPeriod_KeyDown);
             // 
-            // actionToolStripMenuItem
+            // mnuActions
             // 
-            this.actionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuActions.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuConnectDisconnect,
             this.mnuStartStop});
-            this.actionToolStripMenuItem.Name = "actionToolStripMenuItem";
-            this.actionToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
-            this.actionToolStripMenuItem.Text = "Actions";
+            this.mnuActions.Name = "mnuActions";
+            this.mnuActions.Size = new System.Drawing.Size(54, 20);
+            this.mnuActions.Text = "Actions";
             // 
             // mnuConnectDisconnect
             // 
@@ -184,14 +188,14 @@ namespace Marsa
             // mnuFilterAll
             // 
             this.mnuFilterAll.Name = "mnuFilterAll";
-            this.mnuFilterAll.Size = new System.Drawing.Size(125, 22);
+            this.mnuFilterAll.Size = new System.Drawing.Size(152, 22);
             this.mnuFilterAll.Text = "All";
             this.mnuFilterAll.Click += new System.EventHandler(this.mnuFilterAll_Click);
             // 
             // mnuFilterNone
             // 
             this.mnuFilterNone.Name = "mnuFilterNone";
-            this.mnuFilterNone.Size = new System.Drawing.Size(125, 22);
+            this.mnuFilterNone.Size = new System.Drawing.Size(152, 22);
             this.mnuFilterNone.Text = "None";
             this.mnuFilterNone.Click += new System.EventHandler(this.mnuFilterNone_Click);
             // 
@@ -201,7 +205,7 @@ namespace Marsa
             this.mnuFilterGroupsAll,
             this.mnuFilterGroupsNone});
             this.mnuFilterGroups.Name = "mnuFilterGroups";
-            this.mnuFilterGroups.Size = new System.Drawing.Size(125, 22);
+            this.mnuFilterGroups.Size = new System.Drawing.Size(152, 22);
             this.mnuFilterGroups.Text = "Groups";
             // 
             // mnuFilterGroupsAll
@@ -224,7 +228,7 @@ namespace Marsa
             this.mnuFilterSubGroupsAll,
             this.mnuFilterSubGroupsNone});
             this.mnuFilterSubGroups.Name = "mnuFilterSubGroups";
-            this.mnuFilterSubGroups.Size = new System.Drawing.Size(125, 22);
+            this.mnuFilterSubGroups.Size = new System.Drawing.Size(152, 22);
             this.mnuFilterSubGroups.Text = "Subgroups";
             // 
             // mnuFilterSubGroupsAll
@@ -247,7 +251,7 @@ namespace Marsa
             this.mnuFilterCountersAll,
             this.mnuFilterCountersNone});
             this.mnuFilterCounters.Name = "mnuFilterCounters";
-            this.mnuFilterCounters.Size = new System.Drawing.Size(125, 22);
+            this.mnuFilterCounters.Size = new System.Drawing.Size(152, 22);
             this.mnuFilterCounters.Text = "Counters";
             this.mnuFilterCounters.Click += new System.EventHandler(this.mnuFilterEnableAll_Click);
             // 
@@ -276,7 +280,7 @@ namespace Marsa
             // mnuAbout
             // 
             this.mnuAbout.Name = "mnuAbout";
-            this.mnuAbout.Size = new System.Drawing.Size(135, 22);
+            this.mnuAbout.Size = new System.Drawing.Size(152, 22);
             this.mnuAbout.Text = "About Marsa";
             this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click);
             // 
@@ -406,6 +410,7 @@ namespace Marsa
             // 
             // tabAddNewTab
             // 
+            this.tabAddNewTab.Controls.Add(this.zedGraphControl);
             this.tabAddNewTab.Location = new System.Drawing.Point(4, 22);
             this.tabAddNewTab.Name = "tabAddNewTab";
             this.tabAddNewTab.Padding = new System.Windows.Forms.Padding(3);
@@ -413,6 +418,28 @@ namespace Marsa
             this.tabAddNewTab.TabIndex = 1;
             this.tabAddNewTab.Text = "+";
             this.tabAddNewTab.UseVisualStyleBackColor = true;
+            // 
+            // zedGraphControl
+            // 
+            this.zedGraphControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.zedGraphControl.Location = new System.Drawing.Point(3, 3);
+            this.zedGraphControl.Name = "zedGraphControl";
+            this.zedGraphControl.ScrollGrace = 0;
+            this.zedGraphControl.ScrollMaxX = 0;
+            this.zedGraphControl.ScrollMaxY = 0;
+            this.zedGraphControl.ScrollMaxY2 = 0;
+            this.zedGraphControl.ScrollMinX = 0;
+            this.zedGraphControl.ScrollMinY = 0;
+            this.zedGraphControl.ScrollMinY2 = 0;
+            this.zedGraphControl.Size = new System.Drawing.Size(1161, 520);
+            this.zedGraphControl.TabIndex = 0;
+            // 
+            // mnuGraphSettings
+            // 
+            this.mnuGraphSettings.Name = "mnuGraphSettings";
+            this.mnuGraphSettings.Size = new System.Drawing.Size(171, 22);
+            this.mnuGraphSettings.Text = "Graph Settings...";
+            this.mnuGraphSettings.Click += new System.EventHandler(this.mnuGraphSettings_Click);
             // 
             // frmViewer
             // 
@@ -431,6 +458,7 @@ namespace Marsa
             this.tabControl.ResumeLayout(false);
             this.tabPageStatisticsCountersGrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvStatistics)).EndInit();
+            this.tabAddNewTab.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -439,11 +467,11 @@ namespace Marsa
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuSettings;
         private System.Windows.Forms.ToolStripMenuItem mnuIP_Settings;
-        private System.Windows.Forms.ToolStripMenuItem toolStripTextBox1;
+        private System.Windows.Forms.ToolStripMenuItem mnuPeriodSettings;
         private System.Windows.Forms.ToolStripTextBox mnuPeriod;
-        private System.Windows.Forms.ToolStripMenuItem actionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuActions;
         private System.Windows.Forms.ToolStripMenuItem mnuConnectDisconnect;
         private System.Windows.Forms.ToolStripMenuItem mnuStartStop;
         private System.Windows.Forms.Timer tmrCollectStatistics;
@@ -473,6 +501,8 @@ namespace Marsa
         private System.Windows.Forms.DataGridViewTextBoxColumn Delta;
         private System.Windows.Forms.DataGridViewTextBoxColumn Description;
         private System.Windows.Forms.TabPage tabAddNewTab;
+        private ZedGraph.ZedGraphControl zedGraphControl;
+        private System.Windows.Forms.ToolStripMenuItem mnuGraphSettings;
 
     }
 }
