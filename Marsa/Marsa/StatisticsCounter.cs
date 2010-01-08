@@ -111,7 +111,6 @@ namespace Marsa
 
         #region Member Functions
         public StatisticsCounter(int     id,
-                                 int     subGroupID,
                                  string  unit,
                                  string  name,
                                  string  description)
@@ -119,7 +118,6 @@ namespace Marsa
             this.ID             = id;
             this.Name           = name;
             this.Description    = description;
-            this.subGroupID     = subGroupID;
             this.unit           = unit;
             this.value          = 0;
             this.delta          = 0;

@@ -246,11 +246,11 @@ namespace Marsa
             {
                 statisticsDataGridView.Rows.Add(counter.ID,
                                                 counter.Name,
-                                                subgroupsList[counter.SubGroupID].Name,
-                                                groupsList[subgroupsList[counter.SubGroupID].GroupID].Name,
                                                 counter.Value,
                                                 counter.Unit,
                                                 counter.Delta,
+                                                statisticsDataGridView.Columns.,
+                                                "",
                                                 counter.Description);
 
             }
@@ -383,6 +383,11 @@ namespace Marsa
             frmGraphSettings graphSettingsForm;
             graphSettingsForm = new frmGraphSettings();
             graphSettingsForm.ShowDialog();
+        }
+
+        private void dgvStatistics_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            
         }
     }
 }

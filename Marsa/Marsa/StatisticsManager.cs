@@ -104,26 +104,10 @@ namespace Marsa
                 /* Reset the offset to prepare for parsing the received information */
                 rxDataOffset = 0;
 
-                /* First, read the group count*/
-                groupsCount = byteToInt32(response, ref rxDataOffset);
-
-                /* Second, read the subgroups count*/
-                subgroupsCount = byteToInt32(response, ref rxDataOffset);
-
-                /* Third, read the counters count*/
+                /* Read the counters count*/
                 countersCount = byteToInt32(response, ref rxDataOffset);
 
-                /* Now, start reading each group information */
-                for (i = 0; i < groupsCount; i++)
-                {
-                    DecodeGroupInformation(response, ref rxDataOffset, groupsList, i);
-                }
-                /* Then, start reading each subgroup information */
-                for (i = 0; i < subgroupsCount; i++)
-                {
-                    DecodeSubGroupInformation(response, ref rxDataOffset, subgroupsList, i);
-                }
-                /* Finally, start reading each counter information */
+                /* Start reading each counter information */
                 for (i = 0; i < countersCount; i++)
                 {
                     DecodeCounterInformation(response, ref rxDataOffset, countersList, i);
@@ -272,7 +256,6 @@ namespace Marsa
         {
             StatisticsCounter counter;
             int     counterID;
-            int     subgroupID;
             string  counterUnit;
             string  counterName;
             string  counterDescription;
@@ -281,7 +264,6 @@ namespace Marsa
              * typedef struct StatisticsCounterInfo
              * {
              *      uint32_t                    counterID;
-             *      uint32_t                    subgroupID;
              *      const char*                 unit_Ptr;
              *      const char*                 counterName_Ptr;
              *      const char*                 counterDescription_Ptr;
@@ -294,9 +276,6 @@ namespace Marsa
             /* Read the counter ID*/
             counterID = byteToInt32(response, ref rxDataOffset);
 
-            /* Read the parent subgroup ID*/
-            subgroupID = byteToInt32(response, ref rxDataOffset);
-
             /* Read the counter counterUnit */
             counterUnit = ExtractString(response, ref rxDataOffset);
             
@@ -307,7 +286,7 @@ namespace Marsa
             counterDescription = ExtractString(response, ref rxDataOffset);
 
             /* Create new counter object and insert it in the array list, in the correct location*/
-            counter = new StatisticsCounter(counterID, subgroupID, counterUnit, counterName, counterDescription);
+            counter = new StatisticsCounter(counterID, counterUnit, counterName, counterDescription);
             countersList.Add(counter);
         }
 
