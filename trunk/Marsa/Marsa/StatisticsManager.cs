@@ -49,10 +49,8 @@ namespace Marsa
         public List <StatisticsCounter>     countersList;
         public List <StatisticsSubGroup>    subgroupsList;
         public List <StatisticsGroup>       groupsList;
-
         private int                         countersCount;
-        private int                         subgroupsCount;
-        private int                         groupsCount;
+
 
         public StatisticsManager()
         {

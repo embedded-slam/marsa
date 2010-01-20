@@ -103,7 +103,7 @@ namespace Marsa
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.tvGraph);
             this.Name = "frmGraphSettings";
-            this.Text = "Graph Configurations";
+            this.Text = "Graph Settings";
             this.ResumeLayout(false);
 
         }
