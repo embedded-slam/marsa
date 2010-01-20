@@ -43,11 +43,15 @@ namespace Marsa
     {
         private frmConnectionSettings   connectionSettingsForm;
         private StatisticsManager       statisticsManager;
+        private DataSet                 configurationDataSet;
+
 
         public frmViewer()
         {
             InitializeComponent();
             statisticsManager = new StatisticsManager();
+            configurationDataSet = new DataSet();
+            configurationDataSet.ReadXml("configs.xml");
 
         }
 
@@ -249,8 +253,6 @@ namespace Marsa
                                                 counter.Value,
                                                 counter.Unit,
                                                 counter.Delta,
-                                                statisticsDataGridView.Columns.,
-                                                "",
                                                 counter.Description);
 
             }
@@ -265,7 +267,7 @@ namespace Marsa
             UpdateStatisticsGrid(dgvStatistics, 
                                  statisticsManager.countersList);
 
-            CreateGraph(zedGraphControl);
+            //CreateGraph(zedGraphControl);
 
         }
 
@@ -388,6 +390,22 @@ namespace Marsa
         private void dgvStatistics_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             
+        }
+
+        private void mnuGroupSettings_Click(object sender, EventArgs e)
+        {
+            frmGroupSettings groupForm = new frmGroupSettings(this.configurationDataSet.Tables["Groups"]);
+            if (DialogResult.OK == groupForm.ShowDialog())
+            {
+                updateDataSet("Groups", groupForm.GroupsTable);
+            }
+        }
+
+        private void updateDataSet(string tableName, DataTable table)
+        {
+            this.configurationDataSet.Tables.Remove(tableName);
+            this.configurationDataSet.Tables.Add(table);
+            configurationDataSet.WriteXml("configs.xml");
         }
     }
 }
