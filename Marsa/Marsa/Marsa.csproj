@@ -65,12 +65,6 @@
     <Compile Include="frmGraphSettings.Designer.cs">
       <DependentUpon>frmGraphSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmGroupSettings.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmGroupSettings.Designer.cs">
-      <DependentUpon>frmGroupSettings.cs</DependentUpon>
-    </Compile>
     <Compile Include="StatisticsCounter.cs" />
     <Compile Include="frmViewer.cs">
       <SubType>Form</SubType>
@@ -92,10 +86,6 @@
     <EmbeddedResource Include="frmGraphSettings.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmGraphSettings.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmGroupSettings.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>frmGroupSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmViewer.resx">
       <SubType>Designer</SubType>
