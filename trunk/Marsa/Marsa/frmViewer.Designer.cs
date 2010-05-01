@@ -58,15 +58,13 @@ namespace Marsa
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.mnuSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuIP_Settings = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuPeriodSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuPeriod = new System.Windows.Forms.ToolStripTextBox();
-            this.mnuGroupSettings = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuGraphSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuActions = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuConnectDisconnect = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuStartStop = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,14 +88,20 @@ namespace Marsa
             this.dgvStatistics = new System.Windows.Forms.DataGridView();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Counter = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Subgroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Group = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Delta = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabAddNewTab = new System.Windows.Forms.TabPage();
+            this.zedGraphControl = new ZedGraph.ZedGraphControl();
+            this.mnuGraphSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPageStatisticsCountersGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStatistics)).BeginInit();
+            this.tabAddNewTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -116,10 +120,9 @@ namespace Marsa
             // mnuSettings
             // 
             this.mnuSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuGraphSettings,
             this.mnuIP_Settings,
-            this.mnuPeriodSettings,
-            this.mnuGroupSettings,
-            this.mnuGraphSettings});
+            this.mnuPeriodSettings});
             this.mnuSettings.Name = "mnuSettings";
             this.mnuSettings.Size = new System.Drawing.Size(58, 20);
             this.mnuSettings.Text = "Settings";
@@ -128,7 +131,7 @@ namespace Marsa
             // 
             this.mnuIP_Settings.Name = "mnuIP_Settings";
             this.mnuIP_Settings.Size = new System.Drawing.Size(171, 22);
-            this.mnuIP_Settings.Text = "IP...";
+            this.mnuIP_Settings.Text = "IP Settings...";
             this.mnuIP_Settings.Click += new System.EventHandler(this.iPSettingsToolStripMenuItem_Click);
             // 
             // mnuPeriodSettings
@@ -145,22 +148,6 @@ namespace Marsa
             this.mnuPeriod.Size = new System.Drawing.Size(100, 21);
             this.mnuPeriod.Text = "1";
             this.mnuPeriod.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mnuPeriod_KeyDown);
-            // 
-            // mnuGroupSettings
-            // 
-            this.mnuGroupSettings.Name = "mnuGroupSettings";
-            this.mnuGroupSettings.Size = new System.Drawing.Size(171, 22);
-            this.mnuGroupSettings.Text = "Groups...";
-            this.mnuGroupSettings.Visible = false;
-            this.mnuGroupSettings.Click += new System.EventHandler(this.mnuGroupSettings_Click);
-            // 
-            // mnuGraphSettings
-            // 
-            this.mnuGraphSettings.Name = "mnuGraphSettings";
-            this.mnuGraphSettings.Size = new System.Drawing.Size(171, 22);
-            this.mnuGraphSettings.Text = "Graphs...";
-            this.mnuGraphSettings.Visible = false;
-            this.mnuGraphSettings.Click += new System.EventHandler(this.mnuGraphSettings_Click);
             // 
             // mnuActions
             // 
@@ -197,7 +184,6 @@ namespace Marsa
             this.mnuFilter.Name = "mnuFilter";
             this.mnuFilter.Size = new System.Drawing.Size(43, 20);
             this.mnuFilter.Text = "Filter";
-            this.mnuFilter.Visible = false;
             // 
             // mnuFilterAll
             // 
@@ -294,7 +280,7 @@ namespace Marsa
             // mnuAbout
             // 
             this.mnuAbout.Name = "mnuAbout";
-            this.mnuAbout.Size = new System.Drawing.Size(135, 22);
+            this.mnuAbout.Size = new System.Drawing.Size(152, 22);
             this.mnuAbout.Text = "About Marsa";
             this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click);
             // 
@@ -306,6 +292,7 @@ namespace Marsa
             // tabControl
             // 
             this.tabControl.Controls.Add(this.tabPageStatisticsCountersGrid);
+            this.tabControl.Controls.Add(this.tabAddNewTab);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 24);
             this.tabControl.Name = "tabControl";
@@ -329,33 +316,34 @@ namespace Marsa
             this.dgvStatistics.AllowUserToAddRows = false;
             this.dgvStatistics.AllowUserToDeleteRows = false;
             this.dgvStatistics.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            this.dgvStatistics.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgvStatistics.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvStatistics.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvStatistics.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ID,
             this.Counter,
+            this.Subgroup,
+            this.Group,
             this.Value,
             this.Unit,
             this.Delta,
             this.Description});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvStatistics.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvStatistics.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvStatistics.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvStatistics.Location = new System.Drawing.Point(3, 3);
             this.dgvStatistics.Name = "dgvStatistics";
             this.dgvStatistics.ReadOnly = true;
             this.dgvStatistics.Size = new System.Drawing.Size(1161, 520);
             this.dgvStatistics.TabIndex = 2;
-            this.dgvStatistics.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStatistics_CellValueChanged);
             // 
             // ID
             // 
@@ -364,7 +352,6 @@ namespace Marsa
             this.ID.Name = "ID";
             this.ID.ReadOnly = true;
             this.ID.Visible = false;
-            this.ID.Width = 43;
             // 
             // Counter
             // 
@@ -373,6 +360,22 @@ namespace Marsa
             this.Counter.Name = "Counter";
             this.Counter.ReadOnly = true;
             this.Counter.Width = 69;
+            // 
+            // Subgroup
+            // 
+            this.Subgroup.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Subgroup.HeaderText = "Subgroup";
+            this.Subgroup.Name = "Subgroup";
+            this.Subgroup.ReadOnly = true;
+            this.Subgroup.Width = 78;
+            // 
+            // Group
+            // 
+            this.Group.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Group.HeaderText = "Group";
+            this.Group.Name = "Group";
+            this.Group.ReadOnly = true;
+            this.Group.Width = 61;
             // 
             // Value
             // 
@@ -405,6 +408,39 @@ namespace Marsa
             this.Description.Name = "Description";
             this.Description.ReadOnly = true;
             // 
+            // tabAddNewTab
+            // 
+            this.tabAddNewTab.Controls.Add(this.zedGraphControl);
+            this.tabAddNewTab.Location = new System.Drawing.Point(4, 22);
+            this.tabAddNewTab.Name = "tabAddNewTab";
+            this.tabAddNewTab.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAddNewTab.Size = new System.Drawing.Size(1167, 526);
+            this.tabAddNewTab.TabIndex = 1;
+            this.tabAddNewTab.Text = "+";
+            this.tabAddNewTab.UseVisualStyleBackColor = true;
+            // 
+            // zedGraphControl
+            // 
+            this.zedGraphControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.zedGraphControl.Location = new System.Drawing.Point(3, 3);
+            this.zedGraphControl.Name = "zedGraphControl";
+            this.zedGraphControl.ScrollGrace = 0;
+            this.zedGraphControl.ScrollMaxX = 0;
+            this.zedGraphControl.ScrollMaxY = 0;
+            this.zedGraphControl.ScrollMaxY2 = 0;
+            this.zedGraphControl.ScrollMinX = 0;
+            this.zedGraphControl.ScrollMinY = 0;
+            this.zedGraphControl.ScrollMinY2 = 0;
+            this.zedGraphControl.Size = new System.Drawing.Size(1161, 520);
+            this.zedGraphControl.TabIndex = 0;
+            // 
+            // mnuGraphSettings
+            // 
+            this.mnuGraphSettings.Name = "mnuGraphSettings";
+            this.mnuGraphSettings.Size = new System.Drawing.Size(171, 22);
+            this.mnuGraphSettings.Text = "Graph Settings...";
+            this.mnuGraphSettings.Click += new System.EventHandler(this.mnuGraphSettings_Click);
+            // 
             // frmViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -422,6 +458,7 @@ namespace Marsa
             this.tabControl.ResumeLayout(false);
             this.tabPageStatisticsCountersGrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvStatistics)).EndInit();
+            this.tabAddNewTab.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -455,14 +492,17 @@ namespace Marsa
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPageStatisticsCountersGrid;
         private System.Windows.Forms.DataGridView dgvStatistics;
-        private System.Windows.Forms.ToolStripMenuItem mnuGraphSettings;
-        private System.Windows.Forms.ToolStripMenuItem mnuGroupSettings;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Counter;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Subgroup;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Group;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
         private System.Windows.Forms.DataGridViewTextBoxColumn Unit;
         private System.Windows.Forms.DataGridViewTextBoxColumn Delta;
         private System.Windows.Forms.DataGridViewTextBoxColumn Description;
+        private System.Windows.Forms.TabPage tabAddNewTab;
+        private ZedGraph.ZedGraphControl zedGraphControl;
+        private System.Windows.Forms.ToolStripMenuItem mnuGraphSettings;
 
     }
 }

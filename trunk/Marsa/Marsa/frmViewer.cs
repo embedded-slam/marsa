@@ -43,15 +43,15 @@ namespace Marsa
     {
         private frmConnectionSettings   connectionSettingsForm;
         private StatisticsManager       statisticsManager;
-        private DataSet                 configurationDataSet;
+        //private DataSet                 configurationDataSet;
 
 
         public frmViewer()
         {
             InitializeComponent();
             statisticsManager = new StatisticsManager();
-            configurationDataSet = new DataSet();
-            configurationDataSet.ReadXml("configs.xml");
+            //configurationDataSet = new DataSet();
+            //configurationDataSet.ReadXml("configs.xml");
 
         }
 
@@ -250,6 +250,8 @@ namespace Marsa
             {
                 statisticsDataGridView.Rows.Add(counter.ID,
                                                 counter.Name,
+                                                subgroupsList[counter.SubGroupID].Name,
+                                                groupsList[subgroupsList[counter.SubGroupID].GroupID].Name,
                                                 counter.Value,
                                                 counter.Unit,
                                                 counter.Delta,
@@ -387,25 +389,25 @@ namespace Marsa
             graphSettingsForm.ShowDialog();
         }
 
-        private void dgvStatistics_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            
-        }
+        //private void dgvStatistics_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    
+        //}
 
-        private void mnuGroupSettings_Click(object sender, EventArgs e)
-        {
-            frmGroupSettings groupForm = new frmGroupSettings(this.configurationDataSet.Tables["Groups"]);
-            if (DialogResult.OK == groupForm.ShowDialog())
-            {
-                updateDataSet("Groups", groupForm.GroupsTable);
-            }
-        }
+        //private void mnuGroupSettings_Click(object sender, EventArgs e)
+        //{
+        //    frmGroupSettings groupForm = new frmGroupSettings(this.configurationDataSet.Tables["Groups"]);
+        //    if (DialogResult.OK == groupForm.ShowDialog())
+        //    {
+        //        updateDataSet("Groups", groupForm.GroupsTable);
+        //    }
+        //}
 
-        private void updateDataSet(string tableName, DataTable table)
-        {
-            this.configurationDataSet.Tables.Remove(tableName);
-            this.configurationDataSet.Tables.Add(table);
-            configurationDataSet.WriteXml("configs.xml");
-        }
+        //private void updateDataSet(string tableName, DataTable table)
+        //{
+        //    this.configurationDataSet.Tables.Remove(tableName);
+        //    this.configurationDataSet.Tables.Add(table);
+        //    configurationDataSet.WriteXml("configs.xml");
+        //}
     }
 }
